@@ -1,0 +1,5 @@
+Django
+tablib
+tablib[xlsx]
+xhtml2pdf
+ortools

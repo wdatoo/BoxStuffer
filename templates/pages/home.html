@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block main %}
+   <!-- BEGIN: Content-->
+   <div class="row justify-content-center mt-4">
+      <div class="col-6">
+         {% if message %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+               {{ message }}
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+         {% endif %}
+         <form action="{% url 'pages:file_upload' %}"
+               class="mt-4"
+               method="POST"
+               enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-2">
+               <label for="exampleFormControlSelect1">Output Filename (no file extension required!)</label>
+               <input class="form-control" type="text" name="file_name" id="" required>
+            </div>
+            <div class="form-group mb-2">
+               <label for="exampleFormControlSelect1">Select excel file</label>
+               <input class="form-control" type="file" name="file" id="" required>
+            </div>
+            <div class="form-group">
+               <label for="exampleFormControlSelect1">Max Container Weight</label>
+               <select name="bin_capacity"
+                       class="form-control"
+                       id="exampleFormControlSelect1">
+                  <option value="28255">
+                     20GP - 28255 kg
+                  </option>
+                  <option value="26976">
+                     40GP - 26976 kg
+                  </option>
+                  <option value="27918">
+                     40HC - 27918 kg
+                  </option>
+                  <option value="other">
+                     Other - (Open User entry)
+                  </option>
+               </select>
+            </div>
+            <div class="form-group mt-2" style="display: none;" id="other">
+               <label for="exampleFormControlSelect1">Open User entry</label>
+               <input class="form-control"
+                      placeholder="Other - (Open User entry)"
+                      type="text"
+                      name="other_value"
+                      id="other_value">
+            </div>
+            <button class="btn btn-primary mt-4" type="submit">submit</button>
+         </form>
+      </div>
+   </div>
+   <!-- END: Content-->
+   <script>
+   $('select').on('change', function () {
+      if (this.value == "other") {
+         $("#other").show();
+         $("#other_value").val('');
+         $("#other_value").prop('required', true);
+      } else {
+         $("#other").hide();
+         $("#other_value").prop('required', false);
+      }
+   });
+   </script>
+{% endblock main %}
